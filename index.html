@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автобазар</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">Автомобили в продаже</h1>
+
+        <div class="main-content">
+            <div class="filters" id="filters">
+                <h2>Фильтры</h2>
+
+                <label for="brand-filter">Марка:</label>
+                <select id="brand-filter">
+                    <option value="">Любая</option>
+                </select>
+
+                <label for="body-type-filter">Тип кузова:</label>
+                <select id="body-type-filter">
+                    <option value="">Любой</option>
+                    <option value="Седан">Седан</option>
+                    <option value="Кроссовер">Кроссовер</option>
+                    <option value="Хэтчбек">Хэтчбек</option>
+                    <option value="Кабриолет">Кабриолет</option>
+                </select>
+
+                <label for="condition-filter">Состояние:</label>
+                <select id="condition-filter">
+                    <option value="">Любое</option>
+                    <option value="Новый">Новый</option>
+                    <option value="С пробегом">С пробегом</option>
+                </select>
+
+                <label for="price-min-filter">Цена от:</label>
+                <input type="number" id="price-min-filter" placeholder="Мин. цена">
+
+                <label for="price-max-filter">Цена до:</label>
+                <input type="number" id="price-max-filter" placeholder="Макс. цена">
+
+                <label for="year-min-filter">Год выпуска от:</label>
+                <input type="number" id="year-min-filter" placeholder="Мин. год">
+
+                <label for="year-max-filter">Год выпуска до:</label>
+                <input type="number" id="year-max-filter" placeholder="Макс. год">
+
+                <button id="apply-filters">Применить</button>
+            </div>
+
+            <div class="car-grid" id="car-grid">
+                <!-- Сюда будут добавлены карточки автомобилей -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cars = [
+            {
+                model: "Camry",
+                brand: "Toyota",
+                price: 2500000,
+                color: "Серебристый",
+                condition: "С пробегом",
+                bodyType: "Седан",
+                image: "camry.jpg",
+                year: 2018,
+                mileage: 85000,
+                engine: "2.5L 4-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            },
+            {
+                model: "X5",
+                brand: "BMW",
+                price: 7500000,
+                color: "Черный",
+                condition: "Новый",
+                bodyType: "Кроссовер",
+                image: "x5.jpg",
+                year: 2023,
+                mileage: 0,
+                engine: "3.0L 6-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            },
+            {
+                model: "MX-5",
+                brand: "Mazda",
+                price: 3200000,
+                color: "Красный",
+                condition: "С пробегом",
+                bodyType: "Кабриолет",
+                image: "mx5.jpg",
+                year: 2016,
+                mileage: 62000,
+                engine: "2.0L 4-цилиндровый",
+                transmission: "Механика",
+                fuelType: "Бензин"
+            },
+            {
+                model: "A4",
+                brand: "Audi",
+                price: 3800000,
+                color: "Белый",
+                condition: "Новый",
+                bodyType: "Седан",
+                image: "audi-a4.jpg",
+                year: 2024,
+                mileage: 500,
+                engine: "2.0L 4-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            },
+            {
+                model: "Rio",
+                brand: "Kia",
+                price: 1500000,
+                color: "Синий",
+                condition: "С пробегом",
+                bodyType: "Седан",
+                image: "kia-rio.jpg",
+                year: 2015,
+                mileage: 120000,
+                engine: "1.6L 4-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            },
+            {
+                model: "Polo",
+                brand: "Volkswagen",
+                price: 1800000,
+                color: "Серый",
+                condition: "С пробегом",
+                bodyType: "Хэтчбек",
+                image: "polo.jpg",
+                year: 2017,
+                mileage: 95000,
+                engine: "1.4L 4-цилиндровый",
+                transmission: "Механика",
+                fuelType: "Бензин"
+            },
+            {
+                model: "Model 3",
+                brand: "Tesla",
+                price: 6500000,
+                color: "Белый",
+                condition: "Новый",
+                bodyType: "Седан",
+                image: "model3.jpg",
+                year: 2023,
+                mileage: 1000,
+                engine: "Электрический",
+                transmission: "Автомат",
+                fuelType: "Электричество"
+            },
+            {
+                model: "CR-V",
+                brand: "Honda",
+                price: 4200000,
+                color: "Черный",
+                condition: "С пробегом",
+                bodyType: "Кроссовер",
+                image: "crv.jpg",
+                year: 2019,
+                mileage: 78000,
+                engine: "2.4L 4-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            },
+            {
+                model: "Focus",
+                brand: "Ford",
+                price: 1900000,
+                color: "Красный",
+                condition: "С пробегом",
+                bodyType: "Хэтчбек",
+                image: "focus.jpg",
+                year: 2016,
+                mileage: 110000,
+                engine: "1.6L 4-цилиндровый",
+                transmission: "Механика",
+                fuelType: "Бензин"
+            },
+            {
+                model: "E-Class",
+                brand: "Mercedes-Benz",
+                price: 8800000,
+                color: "Серебристый",
+                condition: "Новый",
+                bodyType: "Седан",
+                image: "eclass.jpg",
+                year: 2024,
+                mileage: 0,
+                engine: "2.0L 4-цилиндровый",
+                transmission: "Автомат",
+                fuelType: "Бензин"
+            }
+        ];
+
+        const carGrid = document.getElementById('car-grid');
+        const filtersDiv = document.getElementById('filters');
+        const brandFilterSelect = document.getElementById('brand-filter');
+        const applyFiltersButton = document.getElementById('apply-filters');
+
+        function renderCars(carsToRender) {
+            carGrid.innerHTML = ''; // Очищаем существующие карточки
+
+            carsToRender.forEach(car => {
+                const carCard = document.createElement('div');
+                carCard.classList.add('car-card');
+
+                carCard.innerHTML = `
+                    <img src="tayota.png" alt="${car.model}"  class="car-image"> 
+                    <div class="car-details">
+                        <h3 class="car-model">${car.model}</h3>
+                        <p class="car-brand">Марка: <span>${car.brand}</span></p>
+                        <p class="car-price">Цена: <span>${car.price.toLocaleString()} ₽</span></p>
+                        <p class="car-color">Цвет: <span>${car.color}</span></p>
+                        <p class="car-condition">Состояние: <span>${car.condition}</span></p>
+                        <p class="car-body-type">Тип кузова: <span>${car.bodyType}</span></p>
+                    </div>
+                `;
+
+                carGrid.appendChild(carCard);
+            });
+        }
+
+        function populateBrandFilter() {
+            const brands = [...new Set(cars.map(car => car.brand))];
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandFilterSelect.appendChild(option);
+            });
+        }
+
+        function filterCars() {
+            const selectedBrand = brandFilterSelect.value;
+            const selectedBodyType = document.getElementById('body-type-filter').value;
+            const selectedCondition = document.getElementById('condition-filter').value;
+            const minPrice = document.getElementById('price-min-filter').value;
+            const maxPrice = document.getElementById('price-max-filter').value;
+            const minYear = document.getElementById('year-min-filter').value;
+            const maxYear = document.getElementById('year-max-filter').value;
+
+            let filteredCars = cars.filter(car => {
+                if (selectedBrand && car.brand !== selectedBrand) return false;
+                if (selectedBodyType && car.bodyType !== selectedBodyType) return false;
+                if (selectedCondition && car.condition !== selectedCondition) return false;
+                if (minPrice && car.price < minPrice) return false;
+                if (maxPrice && car.price > maxPrice) return false;
+                if (minYear && car.year < minYear) return false;
+                if (maxYear && car.year > maxYear) return false;
+
+                return true;
+            });
+
+            renderCars(filteredCars);
+        }
+
+        // Инициализация
+        populateBrandFilter();
+        renderCars(cars); // Отображаем все автомобили при загрузке страницы
+
+        // Обработчик события для кнопки "Применить"
+        applyFiltersButton.addEventListener('click', filterCars);
+    </script>
+
+</body>
+</html>
